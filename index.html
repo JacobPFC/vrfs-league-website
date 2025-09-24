@@ -58,7 +58,6 @@
   <footer>Powered by Sportwave • VRFS Community</footer>
 
   <script>
-    // SHA-256 hashing
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password);
@@ -86,6 +85,7 @@
       toggleBtn.textContent = isLogin ? 'Sign Up' : 'Login';
       document.getElementById('auth-title').textContent = isLogin ? 'Login' : 'Sign Up';
       errorEl.textContent = '';
+      errorEl.style.color = '#ffcccb';
     });
 
     actionBtn.addEventListener('click', async () => {
@@ -112,6 +112,15 @@
       }
     });
 
+    // Press Enter to trigger login/signup
+    [usernameInput, passwordInput].forEach(input => {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          actionBtn.click();
+        }
+      });
+    });
+
     function loginSuccess(){
       document.getElementById('auth-box').style.display = 'none';
       document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
@@ -123,6 +132,7 @@
       usernameInput.value = '';
       passwordInput.value = '';
       errorEl.textContent = '';
+      errorEl.style.color = '#ffcccb';
       document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
       document.getElementById('logout-btn').style.display = 'none';
       isLogin = true;
