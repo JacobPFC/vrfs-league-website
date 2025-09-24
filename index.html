@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self';">
   <title>Sportwave — VRFS Hub Login</title>
   <style>
     body { margin: 0; font-family: system-ui, sans-serif; background: linear-gradient(180deg, #ff69b4, #8b5cf6); color: #111827; }
@@ -19,7 +18,7 @@
     .auth-box label { display: block; margin-bottom: 1rem; cursor: pointer; }
     .error { color: #ffcccb; margin-top: 0.5rem; }
     main { max-width: 800px; margin: 0 auto; padding: 1rem; display: grid; gap: 1.5rem; }
-    .card { background: #ffffff; border: 1px solid #ffffff; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; display: none; }
+    .card { background: #ffffff; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; display: none; }
     .card img { height: 80px; width: 80px; object-fit: contain; margin-bottom: 0.5rem; border-radius: 0.5rem; }
     .card h2 { margin: 0.25rem 0; font-size: 1.25rem; font-weight: 600; color: #2563eb; }
     .card p { color: #64748b; margin: 0.5rem 0 1rem; }
@@ -40,12 +39,12 @@
 
   <div class="auth-box" id="auth-box">
     <h2 id="auth-title">Login</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
     <label><input type="checkbox" id="showPassword"> Show Password</label>
     <br>
-    <button onclick="login()">Login</button>
-    <button onclick="signupMode()">Sign Up</button>
+    <button id="action-btn">Login</button>
+    <button id="toggle-btn">Sign Up</button>
     <p class="error" id="error"></p>
   </div>
 
@@ -53,12 +52,13 @@
     <div class="card"><img src="VFA.png" alt="VFA Thumbnail"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VSL2.png" alt="VSL Thumbnail"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
-    <button class="btn logout-btn" id="logout-btn" onclick="logout()">Logout</button>
+    <button class="btn logout-btn" id="logout-btn">Logout</button>
   </main>
 
   <footer>Powered by Sportwave • VRFS Community</footer>
 
   <script>
+    // SHA-256 hashing
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password);
@@ -67,62 +67,69 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorEl = document.getElementById('error');
+    const actionBtn = document.getElementById('action-btn');
+    const toggleBtn = document.getElementById('toggle-btn');
     const showPasswordCheckbox = document.getElementById('showPassword');
+
+    let isLogin = true;
+
     showPasswordCheckbox.addEventListener('change', () => {
-      const passInput = document.getElementById('password');
-      passInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+      passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
     });
 
-    function signupMode() {
-      document.getElementById('auth-title').textContent = 'Sign Up';
-      document.querySelector('button[onclick="login()"]').textContent = 'Sign Up';
-      document.getElementById('error').textContent = '';
-      document.querySelector('button[onclick="login()"]').onclick = signup;
-    }
+    toggleBtn.addEventListener('click', () => {
+      isLogin = !isLogin;
+      actionBtn.textContent = isLogin ? 'Login' : 'Sign Up';
+      toggleBtn.textContent = isLogin ? 'Sign Up' : 'Login';
+      document.getElementById('auth-title').textContent = isLogin ? 'Login' : 'Sign Up';
+      errorEl.textContent = '';
+    });
 
-    async function signup() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const error = document.getElementById('error');
-      if (!username || !password) { error.textContent = 'Enter both username and password!'; return; }
-      if (localStorage.getItem('user_' + username)) { error.textContent = 'Username already exists!'; return; }
+    actionBtn.addEventListener('click', async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      if(!username || !password){ errorEl.textContent = 'Enter both username and password!'; return; }
       const hashed = await hashPassword(password);
-      localStorage.setItem('user_' + username, hashed);
-      error.textContent = 'Sign-up successful! You can now log in.';
-      loginMode();
-    }
 
-    function loginMode() {
-      document.getElementById('auth-title').textContent = 'Login';
-      document.querySelector('button[onclick="signup()"]').textContent = 'Login';
-      document.getElementById('error').textContent = '';
-      document.querySelector('button[onclick="signup()"]').onclick = login;
-    }
-
-    async function login() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const storedHash = localStorage.getItem('user_' + username);
-      const error = document.getElementById('error');
-      if (storedHash) {
-        const hashed = await hashPassword(password);
-        if (hashed === storedHash) {
-          document.getElementById('auth-box').style.display = 'none';
-          document.querySelectorAll('.card').forEach(card => card.style.display = 'block');
-          document.getElementById('logout-btn').style.display = 'block';
+      if(isLogin){
+        const storedHash = localStorage.getItem('user_' + username);
+        if(storedHash === hashed){
+          loginSuccess();
+        } else {
+          errorEl.textContent = 'Incorrect username or password!';
+        }
+      } else {
+        if(localStorage.getItem('user_' + username)){
+          errorEl.textContent = 'Username already exists!';
           return;
         }
+        localStorage.setItem('user_' + username, hashed);
+        errorEl.style.color = '#a3f7b5';
+        errorEl.textContent = 'Sign-up successful! You can now log in.';
       }
-      error.textContent = 'Incorrect username or password!';
+    });
+
+    function loginSuccess(){
+      document.getElementById('auth-box').style.display = 'none';
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
+      document.getElementById('logout-btn').style.display = 'block';
     }
 
-    function logout() {
+    document.getElementById('logout-btn').addEventListener('click', () => {
       document.getElementById('auth-box').style.display = 'block';
-      document.getElementById('password').value = '';
-      document.getElementById('username').value = '';
-      document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+      usernameInput.value = '';
+      passwordInput.value = '';
+      errorEl.textContent = '';
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
       document.getElementById('logout-btn').style.display = 'none';
-    }
+      isLogin = true;
+      actionBtn.textContent = 'Login';
+      toggleBtn.textContent = 'Sign Up';
+      document.getElementById('auth-title').textContent = 'Login';
+    });
   </script>
 </body>
 </html>
