@@ -52,7 +52,19 @@
     <div class="card"><img src="VFA.png" alt="VFA Thumbnail"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VSL2.png" alt="VSL Thumbnail"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
+
+    <!-- Logout button -->
     <button class="btn logout-btn" id="logout-btn">Logout</button>
+
+    <!-- Change Password card -->
+    <div class="card" id="change-password-card">
+      <h2>Change Password</h2>
+      <input type="password" id="current-password" placeholder="Current Password">
+      <input type="password" id="new-password" placeholder="New Password">
+      <label><input type="checkbox" id="show-new-password"> Show Passwords</label><br>
+      <button id="change-password-btn">Change Password</button>
+      <p class="error" id="change-password-msg"></p>
+    </div>
   </main>
 
   <footer>Powered by Sportwave • VRFS Community</footer>
@@ -73,10 +85,23 @@
     const toggleBtn = document.getElementById('toggle-btn');
     const showPasswordCheckbox = document.getElementById('showPassword');
 
+    const changeCard = document.getElementById('change-password-card');
+    const currentPasswordInput = document.getElementById('current-password');
+    const newPasswordInput = document.getElementById('new-password');
+    const changeMsg = document.getElementById('change-password-msg');
+    const showNewPassword = document.getElementById('show-new-password');
+
     let isLogin = true;
+    let loggedInUser = null;
 
     showPasswordCheckbox.addEventListener('change', () => {
       passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+    });
+
+    showNewPassword.addEventListener('change', () => {
+      const type = showNewPassword.checked ? 'text' : 'password';
+      currentPasswordInput.type = type;
+      newPasswordInput.type = type;
     });
 
     toggleBtn.addEventListener('click', () => {
@@ -97,7 +122,7 @@
       if(isLogin){
         const storedHash = localStorage.getItem('user_' + username);
         if(storedHash === hashed){
-          loginSuccess();
+          loginSuccess(username);
         } else {
           errorEl.textContent = 'Incorrect username or password!';
         }
@@ -112,22 +137,23 @@
       }
     });
 
-    // Press Enter to trigger login/signup
-    [usernameInput, passwordInput].forEach(input => {
+    // Press Enter to submit
+    [usernameInput, passwordInput, currentPasswordInput, newPasswordInput].forEach(input => {
       input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          actionBtn.click();
-        }
+        if (e.key === 'Enter') { actionBtn.click(); }
       });
     });
 
-    function loginSuccess(){
+    function loginSuccess(username){
+      loggedInUser = username;
       document.getElementById('auth-box').style.display = 'none';
       document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
       document.getElementById('logout-btn').style.display = 'block';
+      changeCard.style.display = 'block';
     }
 
     document.getElementById('logout-btn').addEventListener('click', () => {
+      loggedInUser = null;
       document.getElementById('auth-box').style.display = 'block';
       usernameInput.value = '';
       passwordInput.value = '';
@@ -135,10 +161,33 @@
       errorEl.style.color = '#ffcccb';
       document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
       document.getElementById('logout-btn').style.display = 'none';
+      changeCard.style.display = 'none';
       isLogin = true;
       actionBtn.textContent = 'Login';
       toggleBtn.textContent = 'Sign Up';
       document.getElementById('auth-title').textContent = 'Login';
+    });
+
+    document.getElementById('change-password-btn').addEventListener('click', async () => {
+      if(!loggedInUser){ changeMsg.textContent = 'You must be logged in!'; return; }
+      const current = currentPasswordInput.value.trim();
+      const next = newPasswordInput.value.trim();
+      if(!current || !next){ changeMsg.textContent = 'Enter both fields!'; return; }
+
+      const storedHash = localStorage.getItem('user_' + loggedInUser);
+      const currentHash = await hashPassword(current);
+
+      if(currentHash === storedHash){
+        const newHash = await hashPassword(next);
+        localStorage.setItem('user_' + loggedInUser, newHash);
+        changeMsg.style.color = '#a3f7b5';
+        changeMsg.textContent = 'Password changed successfully!';
+        currentPasswordInput.value = '';
+        newPasswordInput.value = '';
+      } else {
+        changeMsg.style.color = '#ffcccb';
+        changeMsg.textContent = 'Current password is incorrect!';
+      }
     });
   </script>
 </body>
