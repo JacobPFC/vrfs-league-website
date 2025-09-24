@@ -15,16 +15,38 @@
       min-height: 100vh; 
     }
 
-    header { text-align: center; padding: 2rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    header { 
+      text-align: center; 
+      padding: 2rem 1rem; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 0.5rem; 
+    }
     header img { height: 64px; width: 64px; object-fit: contain; }
     h1 { font-size: 2rem; font-weight: 800; margin: 0.5rem 0; color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
     p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
 
+    /* Discord link */
     .discord-link { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background: #7289da; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem; }
     .discord-link img { height: 20px; width: 20px; margin-right: 0.4rem; }
 
-    /* Sportwave icon link */
-    .icon-link img.icon-only { width: 32px; height: 32px; margin-left: 0.5rem; }
+    /* Sportwave link with background and text */
+    .sportwave-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: #1f2937; /* dark background */
+      color: #ffffff;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: background 0.2s;
+    }
+    .sportwave-link:hover { background: #111827; }
+    .sportwave-link img.icon { width: 20px; height: 20px; }
 
     .auth-box { 
       max-width: 400px; 
@@ -39,10 +61,7 @@
       gap: 0.75rem; 
     }
     .auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
-
-    .auth-box label {
-      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; cursor: pointer; color: #ffffff;
-    }
+    .auth-box label { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; cursor: pointer; color: #ffffff; }
     .auth-box input[type="checkbox"] { width: auto; height: auto; cursor: pointer; }
 
     .error { color: #ffcccb; margin-top: 0.25rem; text-align: center; }
@@ -105,8 +124,8 @@
       <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
     </a>
 
-    <a href="https://www.sportwave.xyz/" target="_blank" class="icon-link">
-      <img src="monitor.png" alt="Sportwave" class="icon-only">
+    <a href="https://www.sportwave.xyz/" target="_blank" class="sportwave-link">
+      <img src="monitor.png" alt="Sportwave Icon" class="icon"> Sportwave
     </a>
   </header>
 
@@ -173,7 +192,6 @@
     const newPasswordInput = document.getElementById('new-password');
     const changeMsg = document.getElementById('change-password-msg');
     const showNewPassword = document.getElementById('show-new-password');
-
     const changeBtn = document.getElementById('change-password-btn');
 
     let isLogin = true;
