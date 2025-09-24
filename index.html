@@ -23,7 +23,6 @@
     .discord-link { display: inline-flex; align-items: center; margin-top: 0.5rem; padding: 0.25rem 0.5rem; background: #7289da; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem; }
     .discord-link img { height: 20px; width: 20px; margin-right: 0.4rem; }
 
-    /* Auth box centered vertically */
     .auth-box { 
       max-width: 400px; 
       margin: auto; 
@@ -37,8 +36,8 @@
       gap: 0.75rem; 
     }
     .auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
-    
-    /* Style show password labels */
+
+    /* Show password labels */
     .auth-box label, #change-password-card label {
       display: flex;
       align-items: center;
@@ -73,11 +72,13 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
       text-align: center; 
       display: none; 
-      display: flex; 
       flex-direction: column; 
       gap: 0.5rem; 
       align-items: center;
     }
+
+    /* Keep Change Password visible on login page */
+    #change-password-card { display: flex; }
 
     .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
     .card h2 { margin: 0; font-size: 1.25rem; font-weight: 600; color: #2563eb; }
@@ -105,7 +106,7 @@
   <header>
     <img src="Sportwave Logo.png" alt="Sportwave Logo">
     <h1>Sportwave — VRFS Leagues Hub</h1>
-    <p class="subtitle">Sign up or log in to access the official VRFS league Discord links.</p>
+    <p class="subtitle">Sign up or log in to access the VRFS hub.</p>
     <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="discord-link">
       <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
     </a>
@@ -124,10 +125,12 @@
   <main id="main-content">
     <button class="btn logout-btn" id="logout-btn">Logout</button>
 
+    <!-- League cards (hidden until login) -->
     <div class="card"><img src="VFA.png" alt="VFA Thumbnail"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VSL2.png" alt="VSL Thumbnail"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
 
+    <!-- Change Password card (visible immediately) -->
     <div class="card" id="change-password-card">
       <h2>Change Password</h2>
       <input type="password" id="current-password" placeholder="Current Password">
@@ -217,9 +220,8 @@
     function loginSuccess(username){
       loggedInUser = username;
       document.getElementById('auth-box').style.display = 'none';
-      document.querySelectorAll('.card').forEach(c => c.style.display = 'flex');
+      document.querySelectorAll('.card').forEach(c => { if(c.id !== 'change-password-card') c.style.display = 'flex'; });
       document.getElementById('logout-btn').style.display = 'block';
-      changeCard.style.display = 'flex';
     }
 
     document.getElementById('logout-btn').addEventListener('click', () => {
@@ -229,9 +231,8 @@
       passwordInput.value = '';
       errorEl.textContent = '';
       errorEl.style.color = '#ffcccb';
-      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+      document.querySelectorAll('.card').forEach(c => { if(c.id !== 'change-password-card') c.style.display = 'none'; });
       document.getElementById('logout-btn').style.display = 'none';
-      changeCard.style.display = 'none';
       isLogin = true;
       actionBtn.textContent = 'Login';
       toggleBtn.textContent = 'Sign Up';
