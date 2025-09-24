@@ -36,7 +36,25 @@
       flex-direction: column; 
       gap: 0.75rem; 
     }
-    .auth-box input, .auth-box button, .auth-box label { width: 100%; }
+    .auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
+    
+    /* Style show password labels */
+    .auth-box label, #change-password-card label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: #ffffff;
+    }
+
+    .auth-box input[type="checkbox"], #change-password-card input[type="checkbox"] {
+      width: auto;
+      height: auto;
+      cursor: pointer;
+    }
+
     .error { color: #ffcccb; margin-top: 0.25rem; text-align: center; }
 
     main { 
@@ -98,27 +116,23 @@
     <input type="text" id="username" placeholder="Username">
     <input type="password" id="password" placeholder="Password">
     <label><input type="checkbox" id="showPassword"> Show Password</label>
-    <br>
     <button id="action-btn">Login</button>
     <button id="toggle-btn">Sign Up</button>
     <p class="error" id="error"></p>
   </div>
 
   <main id="main-content">
-    <!-- Logout button -->
     <button class="btn logout-btn" id="logout-btn">Logout</button>
 
-    <!-- League cards -->
     <div class="card"><img src="VFA.png" alt="VFA Thumbnail"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VSL2.png" alt="VSL Thumbnail"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
     <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
 
-    <!-- Change Password card -->
     <div class="card" id="change-password-card">
       <h2>Change Password</h2>
       <input type="password" id="current-password" placeholder="Current Password">
       <input type="password" id="new-password" placeholder="New Password">
-      <label><input type="checkbox" id="show-new-password"> Show Passwords</label><br>
+      <label><input type="checkbox" id="show-new-password"> Show Passwords</label>
       <button id="change-password-btn">Change Password</button>
       <p class="error" id="change-password-msg"></p>
     </div>
@@ -168,4 +182,83 @@
       document.getElementById('auth-title').textContent = isLogin ? 'Login' : 'Sign Up';
       errorEl.textContent = '';
       errorEl.style.color = '#ffcccb';
-   
+    });
+
+    actionBtn.addEventListener('click', async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      if(!username || !password){ errorEl.textContent = 'Enter both username and password!'; return; }
+      const hashed = await hashPassword(password);
+
+      if(isLogin){
+        const storedHash = localStorage.getItem('user_' + username);
+        if(storedHash === hashed){
+          loginSuccess(username);
+        } else {
+          errorEl.textContent = 'Incorrect username or password!';
+        }
+      } else {
+        if(localStorage.getItem('user_' + username)){
+          errorEl.textContent = 'Username already exists!';
+          return;
+        }
+        localStorage.setItem('user_' + username, hashed);
+        errorEl.style.color = '#a3f7b5';
+        errorEl.textContent = 'Sign-up successful! You can now log in.';
+      }
+    });
+
+    [usernameInput, passwordInput, currentPasswordInput, newPasswordInput].forEach(input => {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') { actionBtn.click(); }
+      });
+    });
+
+    function loginSuccess(username){
+      loggedInUser = username;
+      document.getElementById('auth-box').style.display = 'none';
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'flex');
+      document.getElementById('logout-btn').style.display = 'block';
+      changeCard.style.display = 'flex';
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      loggedInUser = null;
+      document.getElementById('auth-box').style.display = 'flex';
+      usernameInput.value = '';
+      passwordInput.value = '';
+      errorEl.textContent = '';
+      errorEl.style.color = '#ffcccb';
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+      document.getElementById('logout-btn').style.display = 'none';
+      changeCard.style.display = 'none';
+      isLogin = true;
+      actionBtn.textContent = 'Login';
+      toggleBtn.textContent = 'Sign Up';
+      document.getElementById('auth-title').textContent = 'Login';
+    });
+
+    document.getElementById('change-password-btn').addEventListener('click', async () => {
+      if(!loggedInUser){ changeMsg.textContent = 'You must be logged in!'; return; }
+      const current = currentPasswordInput.value.trim();
+      const next = newPasswordInput.value.trim();
+      if(!current || !next){ changeMsg.textContent = 'Enter both fields!'; return; }
+
+      const storedHash = localStorage.getItem('user_' + loggedInUser);
+      const currentHash = await hashPassword(current);
+
+      if(currentHash === storedHash){
+        const newHash = await hashPassword(next);
+        localStorage.setItem('user_' + loggedInUser, newHash);
+        changeMsg.style.color = '#a3f7b5';
+        changeMsg.textContent = 'Password changed successfully!';
+        currentPasswordInput.value = '';
+        newPasswordInput.value = '';
+      } else {
+        changeMsg.style.color = '#ffcccb';
+        changeMsg.textContent = 'Current password is incorrect!';
+      }
+    });
+  </script>
+</body>
+</html>
