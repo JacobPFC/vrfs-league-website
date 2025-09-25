@@ -1,292 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sportwave — VRFS Hub Login</title>
-  <style>
-    body { 
-      margin: 0; 
-      font-family: system-ui, sans-serif; 
-      background: linear-gradient(180deg, #ff69b4, #8b5cf6); 
-      color: #111827; 
-      display: flex; 
-      flex-direction: column; 
-      min-height: 100vh; 
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sportwave — VRFS Hub</title>
+<style>
+body { 
+  margin: 0; 
+  font-family: system-ui, sans-serif; 
+  background: linear-gradient(180deg, #ff69b4, #8b5cf6); 
+  color: #111827; 
+  display: flex; 
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+header { 
+  text-align: center; 
+  padding: 2rem 1rem; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 0.5rem; 
+}
+header img { height: 64px; width: 64px; object-fit: contain; }
+h1 { font-size: 2rem; font-weight: 800; margin: 0.5rem 0; color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
 
-    header { 
-      text-align: center; 
-      padding: 2rem 1rem; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      gap: 0.5rem; 
-    }
-    header img { height: 64px; width: 64px; object-fit: contain; }
-    h1 { font-size: 2rem; font-weight: 800; margin: 0.5rem 0; color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-    p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+.discord-link { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background: #7289da; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem; }
+.discord-link img { height: 20px; width: 20px; margin-right: 0.4rem; }
 
-    .discord-link { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background: #7289da; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem; }
-    .discord-link img { height: 20px; width: 20px; margin-right: 0.4rem; }
+.sportwave-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: #1f2937; 
+  color: #ffffff;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+.sportwave-link:hover { background: #111827; }
+.sportwave-link img.icon { width: 20px; height: 20px; }
 
-    .sportwave-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.5rem;
-      background: #1f2937; 
-      color: #ffffff;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.875rem;
-      transition: background 0.2s;
-    }
-    .sportwave-link:hover { background: #111827; }
-    .sportwave-link img.icon { width: 20px; height: 20px; }
+.auth-box { 
+  max-width: 400px; 
+  margin: 1rem auto; 
+  padding: 2rem; 
+  background: rgba(255,255,255,0.85);
+  border-radius: 1rem; 
+  text-align: center; 
+  color: #111827; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.75rem; 
+}
+.auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
+.auth-box label { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; cursor: pointer; color: #111827; }
+.auth-box input[type="checkbox"] { width: auto; height: auto; cursor: pointer; }
 
-    .auth-box { 
-      max-width: 400px; 
-      margin: auto; 
-      padding: 2rem; 
-      background: rgba(0,0,0,0.3); 
-      border-radius: 1rem; 
-      text-align: center; 
-      color: white; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 0.75rem; 
-    }
-    .auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
-    .auth-box label { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; cursor: pointer; color: #ffffff; }
-    .auth-box input[type="checkbox"] { width: auto; height: auto; cursor: pointer; }
+.error { color: #ff0000; margin-top: 0.25rem; text-align: center; }
 
-    .error { color: #ffcccb; margin-top: 0.25rem; text-align: center; }
+main { 
+  max-width: 1000px; 
+  margin: 2rem auto; 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  gap: 1.5rem; 
+  align-items: start; 
+}
 
-    main { 
-      max-width: 1000px; 
-      margin: 2rem auto; 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-      gap: 1.5rem; 
-      align-items: start; 
-    }
+.card { 
+  background: #ffffff; 
+  border-radius: 1rem; 
+  padding: 1.5rem; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+  text-align: center; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.5rem; 
+  align-items: center;
+}
 
-    .card { 
-      background: #ffffff; 
-      border-radius: 1rem; 
-      padding: 1.5rem; 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-      text-align: center; 
-      display: none; 
-      flex-direction: column; 
-      gap: 0.5rem; 
-      align-items: center;
-    }
+.card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
+.card h2 { margin: 0; font-size: 1.25rem; font-weight: 600; color: #2563eb; }
+.card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
+.btn { display: inline-block; padding: 0.5rem 1rem; background: #2563eb; color: white; border-radius: 0.75rem; text-decoration: none; font-weight: 500; transition: background 0.2s; cursor: pointer; }
+.btn:hover { background: #1e40af; }
 
-    .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
-    .card h2 { margin: 0; font-size: 1.25rem; font-weight: 600; color: #2563eb; }
-    .card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
-    .btn { display: inline-block; padding: 0.5rem 1rem; background: #2563eb; color: white; border-radius: 0.75rem; text-decoration: none; font-weight: 500; transition: background 0.2s; cursor: pointer; }
-    .btn:hover { background: #1e40af; }
+.logout-btn { 
+  background: #f43f5e; 
+  color: white; 
+  border-radius: 0.75rem; 
+  padding: 0.5rem 1rem; 
+  font-weight: 500; 
+  cursor: pointer; 
+  justify-self: end; 
+  grid-column: 1 / -1; 
+  text-align: center;
+}
 
-    .logout-btn { 
-      background: #f43f5e; 
-      color: white; 
-      border-radius: 0.75rem; 
-      padding: 0.5rem 1rem; 
-      font-weight: 500; 
-      cursor: pointer; 
-      justify-self: end; 
-      grid-column: 1 / -1; 
-      display: none; 
-      text-align: center;
-    }
+footer { text-align: center; padding: 1rem; margin-top: auto; color: #111827; }
 
-    footer { text-align: center; padding: 1rem; margin-top: auto; color: #f3f4f6; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);}
-
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);}
-    .modal-content { background-color: #fff; margin: 10% auto; padding: 2rem; border-radius: 1rem; max-width: 400px; text-align: center; position: relative;}
-    .modal .close { position: absolute; right: 1rem; top: 1rem; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #333; }
-  </style>
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);}
+.modal-content { background-color: #fff; margin: 10% auto; padding: 2rem; border-radius: 1rem; max-width: 400px; text-align: center; position: relative;}
+.modal .close { position: absolute; right: 1rem; top: 1rem; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #333; }
+</style>
 </head>
 <body>
-  <header>
-    <img src="Sportwave Logo.png" alt="Sportwave Logo">
-    <h1>Sportwave — VRFS Leagues Hub</h1>
-    <p class="subtitle">Sign up or log in to access the VRFS hub.</p>
+<header>
+  <img src="Sportwave Logo.png" alt="Sportwave Logo">
+  <h1>Sportwave — VRFS Leagues Hub</h1>
+  <p class="subtitle">Sign up or log in to access the VRFS hub.</p>
 
-    <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="discord-link">
-      <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
-    </a>
+  <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="discord-link">
+    <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
+  </a>
 
-    <a href="https://www.sportwave.xyz/" target="_blank" class="sportwave-link">
-      <img src="monitor.png" alt="Sportwave Icon" class="icon"> Sportwave.xyz
-    </a>
-  </header>
+  <a href="https://www.sportwave.xyz/" target="_blank" class="sportwave-link">
+    <img src="monitor.png" alt="Sportwave Icon" class="icon"> Sportwave.xyz
+  </a>
+</header>
 
-  <div class="auth-box" id="auth-box">
-    <h2 id="auth-title">Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <label><input type="checkbox" id="showPassword"> Show Password</label>
-    <button id="action-btn">Login</button>
-    <button id="toggle-btn">Sign Up</button>
-    <p class="error" id="error"></p>
-  </div>
+<div class="auth-box" id="auth-box">
+  <h2 id="auth-title">Login</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <label><input type="checkbox" id="showPassword"> Show Password</label>
+  <button id="action-btn">Login</button>
+  <button id="toggle-btn">Sign Up</button>
+  <p class="error" id="error"></p>
+</div>
 
-  <main id="main-content">
-    <button class="btn logout-btn" id="logout-btn">Logout</button>
+<main id="main-content">
+  <button class="btn logout-btn" id="logout-btn">Logout</button>
 
-    <div class="card"><img src="VFA.png" alt="VFA Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="VSL2.png" alt="VSL Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="VCFA.png" alt="VCFA Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/VCFAExample.png'"><h2>VCFA — Virtual Champions Football Association</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
-    <div class="card"><img src="VDL.png" alt="VDL Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VDL — Virtual Dragons League</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
-  </main>
+  <div class="card"><img src="VFA.png" alt="VFA Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VSL2.png" alt="VSL Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VCFA.png" alt="VCFA Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/VCFAExample.png'"><h2>VCFA — Virtual Champions Football Association</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VDL.png" alt="VDL Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/placeholder.png'"><h2>VDL — Virtual Dragons League</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
+</main>
 
 <script>
-  const usernameInput = document.getElementById('username');
-  const passwordInput = document.getElementById('password');
-  const showPassword = document.getElementById('showPassword');
-  const actionBtn = document.getElementById('action-btn');
-  const toggleBtn = document.getElementById('toggle-btn');
-  const errorEl = document.getElementById('error');
-  const logoutBtn = document.getElementById('logout-btn');
-  const mainContent = document.getElementById('main-content');
-  const authTitle = document.getElementById('auth-title');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const showPassword = document.getElementById('showPassword');
+const actionBtn = document.getElementById('action-btn');
+const toggleBtn = document.getElementById('toggle-btn');
+const errorEl = document.getElementById('error');
+const logoutBtn = document.getElementById('logout-btn');
+const authTitle = document.getElementById('auth-title');
+let isLogin = true;
+let loggedInUser = null;
 
-  let isLogin = true;
-  let loggedInUser = null;
+// modal elements
+const modal = document.createElement('div');
+modal.className = 'modal';
+modal.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h3>Change Password</h3><input type="password" id="currentPasswordInput" placeholder="Current Password"><input type="password" id="newPasswordInput" placeholder="New Password"><button id="changeBtn">Change Password</button><p id="changeMsg"></p></div>`;
+document.body.appendChild(modal);
+const closeModal = modal.querySelector('.close');
+const changeBtn = modal.querySelector('#changeBtn');
+const currentPasswordInput = modal.querySelector('#currentPasswordInput');
+const newPasswordInput = modal.querySelector('#newPasswordInput');
+const changeMsg = modal.querySelector('#changeMsg');
 
-  // modal elements
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Change Password</h3>
-      <input type="password" id="currentPasswordInput" placeholder="Current Password">
-      <input type="password" id="newPasswordInput" placeholder="New Password">
-      <button id="changeBtn">Change Password</button>
-      <p id="changeMsg"></p>
-    </div>`;
-  document.body.appendChild(modal);
+async function hashPassword(password) {
+  const enc = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(password));
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
 
-  const closeModal = modal.querySelector('.close');
-  const changeBtn = modal.querySelector('#changeBtn');
-  const currentPasswordInput = modal.querySelector('#currentPasswordInput');
-  const newPasswordInput = modal.querySelector('#newPasswordInput');
-  const changeMsg = modal.querySelector('#changeMsg');
+// Preload test account
+(async()=>{ const testUser='test'; const testPass='1234'; if(!localStorage.getItem('user_'+testUser)){ const hashed=await hashPassword(testPass); localStorage.setItem('user_'+testUser,hashed); }})();
 
-  // Hashing function
-  async function hashPassword(password) {
-    const enc = new TextEncoder();
-    const hashBuffer = await crypto.subtle.digest('SHA-256', enc.encode(password));
-    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+actionBtn.addEventListener('click', async()=>{
+  const username=usernameInput.value.trim();
+  const password=passwordInput.value.trim();
+  if(!username||!password){ errorEl.textContent='Enter both fields!'; return; }
+  const storedHash=localStorage.getItem('user_'+username);
+  const hash=await hashPassword(password);
+  if(isLogin){
+    if(storedHash===hash){ loggedInUser=username; errorEl.textContent=''; alert('Logged in!'); } 
+    else { errorEl.textContent='Invalid username or password!'; }
+  } else {
+    if(storedHash){ errorEl.textContent='Username already exists!'; }
+    else { localStorage.setItem('user_'+username,hash); errorEl.style.color='#a3f7b5'; errorEl.textContent='Account created! You can now login.'; usernameInput.value=''; passwordInput.value=''; toggleBtn.click(); }
   }
+});
 
-  // Preload test account: test / 1234
-  (async () => {
-    const testUser = 'test';
-    const testPass = '1234';
-    if (!localStorage.getItem('user_' + testUser)) {
-      const hashed = await hashPassword(testPass);
-      localStorage.setItem('user_' + testUser, hashed);
-    }
-  })();
+toggleBtn.addEventListener('click',()=>{ isLogin=!isLogin; actionBtn.textContent=isLogin?'Login':'Sign Up'; authTitle.textContent=isLogin?'Login':'Sign Up'; errorEl.textContent=''; });
+showPassword.addEventListener('change',()=>{ passwordInput.type=showPassword.checked?'text':'password'; });
+logoutBtn.addEventListener('click',()=>{ loggedInUser=null; alert('Logged out'); });
 
-  function showCards(show) {
-    document.querySelectorAll('.card').forEach(c => c.style.display = show ? 'flex' : 'none');
-    logoutBtn.style.display = show ? 'block' : 'none';
-  }
+// change password modal
+logoutBtn.insertAdjacentElement('afterend',(()=>{
+  const btn=document.createElement('button'); btn.textContent='Change Password'; btn.className='btn'; btn.style.marginBottom='1rem';
+  btn.addEventListener('click',()=>{ modal.style.display='block'; }); return btn;
+})());
 
-  actionBtn.addEventListener('click', async () => {
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value.trim();
-    if(!username || !password){ errorEl.textContent = 'Enter both fields!'; return; }
-
-    const storedHash = localStorage.getItem('user_' + username);
-    const hash = await hashPassword(password);
-
-    if(isLogin){
-      if(storedHash === hash){
-        loggedInUser = username;
-        errorEl.textContent = '';
-        showCards(true);
-        document.getElementById('auth-box').style.display = 'none';
-      } else {
-        errorEl.textContent = 'Invalid username or password!';
-      }
-    } else {
-      if(storedHash){
-        errorEl.textContent = 'Username already exists!';
-      } else {
-        localStorage.setItem('user_' + username, hash);
-        errorEl.style.color = '#a3f7b5';
-        errorEl.textContent = 'Account created! You can now login.';
-        usernameInput.value = '';
-        passwordInput.value = '';
-        toggleBtn.click(); // switch to login
-      }
-    }
-  });
-
-  toggleBtn.addEventListener('click', () => {
-    isLogin = !isLogin;
-    actionBtn.textContent = isLogin ? 'Login' : 'Sign Up';
-    authTitle.textContent = isLogin ? 'Login' : 'Sign Up';
-    errorEl.textContent = '';
-  });
-
-  showPassword.addEventListener('change', () => {
-    passwordInput.type = showPassword.checked ? 'text' : 'password';
-  });
-
-  logoutBtn.addEventListener('click', () => {
-    loggedInUser = null;
-    showCards(false);
-    document.getElementById('auth-box').style.display = 'flex';
-  });
-
-  // Change password modal
-  logoutBtn.insertAdjacentElement('afterend', (() => {
-    const btn = document.createElement('button');
-    btn.textContent = 'Change Password';
-    btn.className = 'btn';
-    btn.style.marginBottom = '1rem';
-    btn.addEventListener('click', () => { modal.style.display = 'block'; });
-    return btn;
-  })());
-
-  closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
-  window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
-
-  changeBtn.addEventListener('click', async () => {
-    if(!loggedInUser){ changeMsg.textContent = 'You must be logged in!'; return; }
-    const current = currentPasswordInput.value.trim();
-    const next = newPasswordInput.value.trim();
-    if(!current || !next){ changeMsg.textContent = 'Enter both fields!'; return; }
-
-    const storedHash = localStorage.getItem('user_' + loggedInUser);
-    const currentHash = await hashPassword(current);
-
-    if(currentHash === storedHash){
-      const newHash = await hashPassword(next);
-      localStorage.setItem('user_' + loggedInUser, newHash);
-      changeMsg.style.color = '#a3f7b5';
-      changeMsg.textContent = 'Password changed successfully!';
-      currentPasswordInput.value = '';
-      newPasswordInput.value = '';
-      modal.style.display = 'none';
-    } else {
-      changeMsg.style.color = '#ffcccb';
-      changeMsg.textContent = 'Current password is incorrect!';
-    }
-  });
+closeModal.addEventListener('click',()=>{ modal.style.display='none'; });
+window.addEventListener('click',(e)=>{ if(e.target===modal) modal.style.display='none'; });
+changeBtn.addEventListener('click',async()=>{
+  if(!loggedInUser){ changeMsg.textContent='You must be logged in!'; return; }
+  const current=currentPasswordInput.value.trim(); const next=newPasswordInput.value.trim();
+  if(!current||!next){ changeMsg.textContent='Enter both fields!'; return; }
+  const storedHash=localStorage.getItem('user_'+loggedInUser); const currentHash=await hashPassword(current);
+  if(currentHash===storedHash){ const newHash=await hashPassword(next); localStorage.setItem('user_'+loggedInUser,newHash); changeMsg.style.color='#a3f7b5'; changeMsg.textContent='Password changed successfully!'; currentPasswordInput.value=''; newPasswordInput.value=''; modal.style.display='none'; } 
+  else{ changeMsg.style.color='#ffcccb'; changeMsg.textContent='Current password is incorrect!'; }
+});
 </script>
 </body>
 </html>
