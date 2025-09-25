@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sportwave — VRFS Hub</title>
 <style>
+/* ---- Base ---- */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -14,7 +15,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-
 header {
   text-align: center;
   padding: 1.5rem 1rem;
@@ -23,11 +23,11 @@ header {
   align-items: center;
   gap: 0.5rem;
 }
-
 header img { height: 64px; width: 64px; object-fit: contain; }
 h1 { font-size: 2rem; font-weight: 800; margin: 0.5rem 0; color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
 p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
 
+/* ---- Links ---- */
 .discord-link, .sportwave-link {
   display: inline-flex;
   align-items: center;
@@ -43,11 +43,11 @@ p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2)
 .discord-link { background: #7289da; color: white; }
 .discord-link:hover { background: #5b6eae; }
 .discord-link img { height: 20px; width: 20px; }
-
 .sportwave-link { background: #1f2937; color: #ffffff; }
 .sportwave-link:hover { background: #111827; }
 .sportwave-link img.icon { width: 20px; height: 20px; }
 
+/* ---- Auth ---- */
 .auth-box {
   max-width: 360px;
   margin: 1rem auto;
@@ -60,7 +60,6 @@ p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2)
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .auth-box input, .auth-box button {
   width: 100%;
   padding: 0.6rem;
@@ -69,11 +68,10 @@ p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2)
   box-sizing: border-box;
   font-size: 1rem;
 }
-
 .auth-box label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; color: #111827; }
-
 .error { color: #ff0000; margin-top: 0.25rem; text-align: center; }
 
+/* ---- Hub ---- */
 main {
   max-width: 1200px;
   margin: 2rem auto;
@@ -84,7 +82,6 @@ main {
   align-items: start;
   padding: 0 1rem;
 }
-
 .card {
   background: #ffffff;
   border-radius: 1rem;
@@ -98,12 +95,9 @@ main {
   width: 100%;
   max-width: 280px;
 }
-
 .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
-
-.card h2 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #2563eb; text-align: center; }
-.card p { color: #64748b; margin: 0.25rem 0 0.75rem; text-align: center; }
-
+.card h2 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #2563eb; }
+.card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
 .btn {
   display: inline-block;
   padding: 0.6rem 1.2rem;
@@ -114,13 +108,11 @@ main {
   font-weight: 500;
   transition: background 0.2s;
   cursor: pointer;
-  text-align: center;
   font-size: 0.95rem;
 }
-
 .btn:hover { background: #1e40af; }
 
-.logout-btn, .change-pass-btn {
+.logout-btn {
   background: #f43f5e;
   color: white;
   border-radius: 0.75rem;
@@ -132,57 +124,28 @@ main {
   align-self: center;
 }
 
-footer { text-align: center; padding: 1rem; margin-top: auto; color: #111827; }
-
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);}
+/* ---- Modal ---- */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);}
 .modal-content { background-color: #fff; margin: 10% auto; padding: 2rem; border-radius: 1rem; max-width: 400px; text-align: center; position: relative;}
 .modal .close { position: absolute; right: 1rem; top: 1rem; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #333; }
 
-/* Tablet optimization */
+/* ---- Responsive ---- */
 @media (max-width: 1024px) {
   header img { height: 56px; width: 56px; }
   h1 { font-size: 1.75rem; }
   p.subtitle { font-size: 1rem; }
   main { gap: 1.25rem; }
 }
-
-/* Small mobile */
 @media (max-width: 600px) {
   header img { height: 48px; width: 48px; }
   h1 { font-size: 1.5rem; }
   p.subtitle { font-size: 0.9rem; }
-
-  .auth-box {
-    margin: 1rem;
-    padding: 1.5rem;
-    width: auto;
-  }
-  .auth-box input, .auth-box button {
-    font-size: 1rem;
-    padding: 0.75rem;
-  }
-
-  main {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin: 1rem;
-  }
-
-  .card {
-    max-width: none;
-    width: 100%;
-    padding: 1rem;
-  }
-  .card img {
-    height: 64px;
-    width: 64px;
-  }
-
-  .btn, .logout-btn, .change-pass-btn {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.75rem;
-  }
+  .auth-box { margin: 1rem; padding: 1.5rem; width: auto; }
+  .auth-box input, .auth-box button { font-size: 1rem; padding: 0.75rem; }
+  main { grid-template-columns: 1fr; gap: 1rem; margin: 1rem; }
+  .card { max-width: none; width: 100%; padding: 1rem; }
+  .card img { height: 64px; width: 64px; }
+  .btn, .logout-btn { width: 100%; font-size: 1rem; padding: 0.75rem; }
 }
 </style>
 </head>
@@ -191,11 +154,9 @@ footer { text-align: center; padding: 1rem; margin-top: auto; color: #111827; }
   <img src="Sportwave Logo.png" alt="Sportwave Logo">
   <h1>Sportwave — VRFS Leagues Hub</h1>
   <p class="subtitle">Sign up or log in to access the VRFS hub.</p>
-
   <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="discord-link">
     <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
   </a>
-
   <a href="https://www.sportwave.xyz/" target="_blank" class="sportwave-link">
     <img src="monitor.png" alt="Sportwave Icon" class="icon"> Sportwave.xyz
   </a>
@@ -213,21 +174,23 @@ footer { text-align: center; padding: 1rem; margin-top: auto; color: #111827; }
 
 <main id="main-content" style="display:none;">
   <button class="btn logout-btn" id="logout-btn">Logout</button>
-  <!-- League cards -->
-  <div class="card"><img src="VFA.png" alt="VFA Thumbnail"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="VSL2.png" alt="VSL Thumbnail"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards Thumbnail"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg Thumbnail"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="VCFA123.png" alt="VCFA Thumbnail"><h2>VCFA — Virtual Champions Football Association</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="VDL.png" alt="VDL Thumbnail"><h2>VDL — Virtual Dragons League</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
+
+  <div class="card"><img src="VFA.png" alt="VFA"><h2>VFA</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VSL2.png" alt="VSL"><h2>VSL</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VWC.png" alt="VWC.GG"><h2>VWC.GG</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VCFA123.png" alt="VCFA"><h2>VCFA</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VDL.png" alt="VDL"><h2>VDL</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="Goat League.png" alt="Goat League"><h2>Goat League</h2><p>Competitive division under VRFS.</p><a href="https://discord.gg/4GRdhzWwZF" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="UVBL.png" alt="UVBL"><h2>UVBL</h2><p>Competitive league under VRFS.</p><a href="https://discord.gg/XzzuwFMxcX" target="_blank" class="btn">Join Discord</a></div>
 </main>
 
-<!-- JS stays same as before -->
 <script>
-// Your login, signup, password toggle, and modal JS logic here
+// JS login/signup system from your earlier version goes here
 </script>
 </body>
 </html>
+
 
 
