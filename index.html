@@ -170,5 +170,82 @@ const namespace = 'vrfs-hub';
 
 // Helper functions
 function setItem(key,value){localStorage.setItem(`${namespace}:${key}`,value);}
-function getItem(key){return localStorage.getItem(`${namespace}:${key}`
+function getItem(key){return localStorage.getItem(`${namespace}:${key}`);}
+function removeItem(key){localStorage.removeItem(`${namespace}:${key}`);}
+
+// Elements
+const authBox = document.getElementById("auth-box");
+const mainContent = document.getElementById("main-content");
+const authTitle = document.getElementById("auth-title");
+const actionBtn = document.getElementById("action-btn");
+const toggleBtn = document.getElementById("toggle-btn");
+const errorMsg = document.getElementById("error");
+const logoutBtn = document.getElementById("logout-btn");
+
+let isLogin = true;
+
+// Toggle login/signup
+toggleBtn.addEventListener("click", () => {
+  isLogin = !isLogin;
+  authTitle.textContent = isLogin ? "Login" : "Sign Up";
+  actionBtn.textContent = isLogin ? "Login" : "Sign Up";
+  toggleBtn.textContent = isLogin ? "Sign Up" : "Login";
+  errorMsg.textContent = "";
+});
+
+// Login/Signup with auto-reset
+actionBtn.addEventListener("click", () => {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  if(!username || !password){errorMsg.textContent="Please enter a username and password."; return;}
+  if(isLogin){
+    const storedPass = getItem("user:"+username);
+    if(storedPass === password){
+      setItem("loggedInUser", username);
+      authBox.style.display="none";
+      mainContent.style.display="grid";
+      errorMsg.textContent="";
+    } else {
+      errorMsg.textContent="Invalid username or password. Please try again.";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
+  } else {
+    if(getItem("user:"+username)){
+      errorMsg.textContent="That username already exists. Please choose another.";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    } else {
+      setItem("user:"+username, password);
+      setItem("loggedInUser", username);
+      authBox.style.display="none";
+      mainContent.style.display="grid";
+      errorMsg.textContent="";
+    }
+  }
+});
+
+// Logout
+logoutBtn.addEventListener("click", ()=>{
+  removeItem("loggedInUser");
+  mainContent.style.display="none";
+  authBox.style.display="flex";
+});
+
+// Auto-login
+window.onload = () => {
+  const loggedInUser = getItem("loggedInUser");
+  if(loggedInUser){
+    authBox.style.display="none";
+    mainContent.style.display="grid";
+  }
+};
+
+// Show/hide password
+document.getElementById("showPassword").addEventListener("change", (e)=>{
+  document.getElementById("password").type = e.target.checked ? "text" : "password";
+});
+</script>
+</body>
+</html>
 
