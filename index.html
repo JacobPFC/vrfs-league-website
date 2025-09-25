@@ -1,3 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sportwave — VRFS Hub Login</title>
+  <style>
+    body { 
+      margin: 0; 
+      font-family: system-ui, sans-serif; 
+      background: linear-gradient(180deg, #ff69b4, #8b5cf6); 
+      color: #111827; 
+      display: flex; 
+      flex-direction: column; 
+      min-height: 100vh; 
+    }
+
+    header { 
+      text-align: center; 
+      padding: 2rem 1rem; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 0.5rem; 
+    }
+    header img { height: 64px; width: 64px; object-fit: contain; }
+    h1 { font-size: 2rem; font-weight: 800; margin: 0.5rem 0; color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+    p.subtitle { color: #f3f4f6; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+    .discord-link { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background: #7289da; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem; }
+    .discord-link img { height: 20px; width: 20px; margin-right: 0.4rem; }
+
+    .sportwave-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: #1f2937; 
+      color: #ffffff;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: background 0.2s;
+    }
+    .sportwave-link:hover { background: #111827; }
+    .sportwave-link img.icon { width: 20px; height: 20px; }
+
+    .auth-box { 
+      max-width: 400px; 
+      margin: auto; 
+      padding: 2rem; 
+      background: rgba(0,0,0,0.3); 
+      border-radius: 1rem; 
+      text-align: center; 
+      color: white; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.75rem; 
+    }
+    .auth-box input, .auth-box button { width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: none; }
+    .auth-box label { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; cursor: pointer; color: #ffffff; }
+    .auth-box input[type="checkbox"] { width: auto; height: auto; cursor: pointer; }
+
+    .error { color: #ffcccb; margin-top: 0.25rem; text-align: center; }
+
+    main { 
+      max-width: 1000px; 
+      margin: 2rem auto; 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 1.5rem; 
+      align-items: start; 
+    }
+
+    .card { 
+      background: #ffffff; 
+      border-radius: 1rem; 
+      padding: 1.5rem; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+      text-align: center; 
+      display: none; 
+      flex-direction: column; 
+      gap: 0.5rem; 
+      align-items: center;
+    }
+
+    .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
+    .card h2 { margin: 0; font-size: 1.25rem; font-weight: 600; color: #2563eb; }
+    .card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
+    .btn { display: inline-block; padding: 0.5rem 1rem; background: #2563eb; color: white; border-radius: 0.75rem; text-decoration: none; font-weight: 500; transition: background 0.2s; cursor: pointer; }
+    .btn:hover { background: #1e40af; }
+
+    .logout-btn { 
+      background: #f43f5e; 
+      color: white; 
+      border-radius: 0.75rem; 
+      padding: 0.5rem 1rem; 
+      font-weight: 500; 
+      cursor: pointer; 
+      justify-self: end; 
+      grid-column: 1 / -1; 
+      display: none; 
+      text-align: center;
+    }
+
+    footer { text-align: center; padding: 1rem; margin-top: auto; color: #f3f4f6; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);}
+
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);}
+    .modal-content { background-color: #fff; margin: 10% auto; padding: 2rem; border-radius: 1rem; max-width: 400px; text-align: center; position: relative;}
+    .modal .close { position: absolute; right: 1rem; top: 1rem; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #333; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Sportwave Logo.png" alt="Sportwave Logo">
+    <h1>Sportwave — VRFS Leagues Hub</h1>
+    <p class="subtitle">Sign up or log in to access the VRFS hub.</p>
+
+    <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="discord-link">
+      <img src="Discord-Emblem.png" alt="Discord" />Join Sportwave Discord
+    </a>
+
+    <a href="https://www.sportwave.xyz/" target="_blank" class="sportwave-link">
+      <img src="monitor.png" alt="Sportwave Icon" class="icon"> Sportwave.xyz
+    </a>
+  </header>
+
+  <div class="auth-box" id="auth-box">
+    <h2 id="auth-title">Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <label><input type="checkbox" id="showPassword"> Show Password</label>
+    <button id="action-btn">Login</button>
+    <button id="toggle-btn">Sign Up</button>
+    <p class="error" id="error"></p>
+  </div>
+
+  <main id="main-content">
+    <button class="btn logout-btn" id="logout-btn">Logout</button>
+
+    <div class="card"><img src="VFA.png" alt="VFA Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VFA — Virtual Football Association</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="VSL2.png" alt="VSL Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VSL — Virtual Super League</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="VWC.png" alt="VWC.GG Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VWC.GG — Virtual World Cup</h2><p>Global competition hub for VRFS players.</p><a href="https://discord.gg/gp6MgkfC" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="VCFA.png" alt="VCFA Thumbnail" onerror="this.onerror=null; this.src='https://i.imgur.com/VCFAExample.png'"><h2>VCFA — Virtual Champions Football Association</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
+    <div class="card"><img src="VDL.png" alt="VDL Thumbnail" onerror="this.onerror=null; this.src='default.png'"><h2>VDL — Virtual Dragons League</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
+  </main>
+
 <script>
   const usernameInput = document.getElementById('username');
   const passwordInput = document.getElementById('password');
@@ -138,3 +288,5 @@
     }
   });
 </script>
+</body>
+</html>
