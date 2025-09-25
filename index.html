@@ -52,6 +52,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
     }
     .card img {
       height: 100px;
@@ -70,6 +71,18 @@
     }
     .btn:hover {
       background: #5a3ecc;
+    }
+    .sponsored-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #facc15;
+      color: #111827;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
     }
     footer {
       text-align: center;
@@ -159,6 +172,7 @@
 
     <div class="card">
       <img src="UBL.GG.jpeg" alt="UBL.GG">
+      <span class="sponsored-tag">Sponsored</span>
       <h2>UBL.GG</h2>
       <a href="https://discord.gg/tmKd6KTrew" target="_blank" class="btn">Join Discord</a>
     </div>
