@@ -9,8 +9,6 @@ body {
   margin: 0;
   font-family: system-ui, sans-serif;
   color: #111827;
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background: linear-gradient(270deg, #ff69b4, #8b5cf6, #3b82f6, #ec4899);
   background-size: 800% 800%;
@@ -90,16 +88,17 @@ main {
   max-width: 1200px;
   margin: 2rem auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
   justify-items: center;
   align-items: start;
   padding: 0 1rem;
 }
+
 .card {
   background: #ffffff;
   border-radius: 1rem;
-  padding: 10px;
+  padding: 15px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   text-align: center;
   display: flex;
@@ -107,10 +106,11 @@ main {
   gap: 10px;
   align-items: center;
   width: 100%;
-  max-width: 280px;
   min-height: 300px;
   box-sizing: border-box;
+  transition: transform 0.2s;
 }
+.card:hover { transform: translateY(-5px); }
 .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
 .card h2 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #2563eb; }
 .card p { color: #64748b; margin: 0; }
@@ -121,25 +121,26 @@ main {
 .logout-btn { background: #f43f5e; color: white; border-radius: 0.75rem; padding: 0.5rem 1rem; font-weight: 500; cursor: pointer; position: fixed; bottom: 20px; right: 20px; z-index: 100; }
 
 @media (max-width: 1024px) {
+  main { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+@media (max-width: 768px) {
   header img { height: 56px; width: 56px; }
   h1 { font-size: 1.75rem; }
-  p.subtitle { font-size: 1rem; }
-  main { gap: 1.25rem; }
+  main { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .card img { height: 70px; width: 70px; }
 }
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   header img { height: 48px; width: 48px; }
   h1 { font-size: 1.5rem; }
-  p.subtitle { font-size: 0.9rem; }
-  .auth-box { margin: 1rem; padding: 1.5rem; width: auto; }
-  .auth-box input, .auth-box button { font-size: 1rem; padding: 0.75rem; }
-  main { grid-template-columns: 1fr; gap: 1rem; margin: 1rem; }
-  .card { max-width: none; width: 100%; padding: 10px; }
-  .card img { height: 64px; width: 64px; }
-  .btn, .logout-btn { width: 100%; font-size: 1rem; padding: 0.75rem; }
+  main { grid-template-columns: 1fr; gap: 10px; margin: 0 0.5rem; }
+  .card { min-height: 260px; padding: 10px; }
+  .card img { height: 60px; width: 60px; }
+  .btn, .logout-btn { font-size: 0.95rem; padding: 0.5rem; width: 100%; }
 }
 </style>
 </head>
 <body>
+
 <header>
   <img src="Sportwave Logo.png" alt="Sportwave Logo">
   <h1>Sportwave — VRFS Leagues Hub</h1>
@@ -182,10 +183,10 @@ main {
 <button class="logout-btn" id="logout-btn">Logout</button>
 
 <script>
-// Namespace for GitHub Pages safe localStorage
+// Namespace
 const namespace = 'vrfs-hub';
 
-// Helper functions
+// LocalStorage helpers
 function setItem(key,value){localStorage.setItem(`${namespace}:${key}`,value);}
 function getItem(key){return localStorage.getItem(`${namespace}:${key}`);}
 function removeItem(key){localStorage.removeItem(`${namespace}:${key}`);}
@@ -272,7 +273,7 @@ searchBar.addEventListener("input", () => {
 });
 
 // Hover sound
-const hoverSound = new Audio('hover.mp3'); // add hover.mp3 file in folder
+const hoverSound = new Audio('hover.mp3'); 
 document.querySelectorAll(".btn, .logout-btn, #action-btn, #toggle-btn").forEach(btn => {
   btn.addEventListener("mouseenter", () => { hoverSound.currentTime = 0; hoverSound.play(); });
 });
