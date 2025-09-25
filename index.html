@@ -78,19 +78,21 @@ main {
 .card {
   background: #ffffff;
   border-radius: 1rem;
-  padding: 1.25rem;
+  padding: 10px; /* consistent padding */
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 10px; /* internal spacing */
   align-items: center;
   width: 100%;
   max-width: 280px;
+  min-height: 300px; /* ensure all cards same height */
+  box-sizing: border-box;
 }
 .card img { height: 80px; width: 80px; object-fit: contain; border-radius: 0.5rem; }
 .card h2 { margin: 0; font-size: 1.2rem; font-weight: 600; color: #2563eb; }
-.card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
+.card p { color: #64748b; margin: 0; }
 .btn { display: inline-block; padding: 0.6rem 1.2rem; background: #2563eb; color: white; border-radius: 0.75rem; text-decoration: none; font-weight: 500; transition: background 0.2s; cursor: pointer; font-size: 0.95rem;}
 .btn:hover { background: #1e40af; }
 .logout-btn { background: #f43f5e; color: white; border-radius: 0.75rem; padding: 0.5rem 1rem; font-weight: 500; cursor: pointer; position: fixed; bottom: 20px; right: 20px; z-index: 100; }
@@ -107,7 +109,7 @@ main {
   .auth-box { margin: 1rem; padding: 1.5rem; width: auto; }
   .auth-box input, .auth-box button { font-size: 1rem; padding: 0.75rem; }
   main { grid-template-columns: 1fr; gap: 1rem; margin: 1rem; }
-  .card { max-width: none; width: 100%; padding: 1rem; }
+  .card { max-width: none; width: 100%; padding: 10px; }
   .card img { height: 64px; width: 64px; }
   .btn, .logout-btn { width: 100%; font-size: 1rem; padding: 0.75rem; }
 }
@@ -150,7 +152,6 @@ main {
   <div class="card"><img src="euros_trans.png" alt="Euros (VTO)"><h2>Euros (VTO)</h2><p>Competitive VRFS European league.</p><a href="https://discord.gg/your-discord-link" target="_blank" class="btn">Join Discord</a></div>
 </main>
 
-<!-- Fixed Logout Button -->
 <button class="logout-btn" id="logout-btn">Logout</button>
 
 <script>
@@ -217,3 +218,4 @@ document.getElementById("showPassword").addEventListener("change",(e)=>{
 </script>
 </body>
 </html>
+
