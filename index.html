@@ -156,6 +156,12 @@
       <h2>Sportwave Streaming Academy</h2>
       <a href="https://discord.gg/7VjkMwyGfz" target="_blank" class="btn">Join Discord</a>
     </div>
+
+    <div class="card">
+      <img src="UBL.GG.jpeg" alt="UBL.GG">
+      <h2>UBL.GG</h2>
+      <a href="https://discord.gg/tmKd6KTrew" target="_blank" class="btn">Join Discord</a>
+    </div>
   </main>
 
   <footer>
@@ -165,7 +171,6 @@
   <button class="logout-btn" onclick="logout()">Logout</button>
 
   <script>
-    // Search bar filtering
     const searchBar = document.getElementById("search-bar");
     searchBar.addEventListener("input", () => {
       const filter = searchBar.value.toLowerCase();
@@ -176,7 +181,6 @@
       });
     });
 
-    // Hover sound
     const hoverSound = new Audio('hover.mp3');
     const buttons = document.querySelectorAll(".btn, .logout-btn");
     buttons.forEach(btn => {
@@ -186,7 +190,6 @@
       });
     });
 
-    // Fake logout
     function logout() {
       alert("You have been logged out.");
       window.location.reload();
