@@ -93,7 +93,7 @@ main {
 .card p { color: #64748b; margin: 0.25rem 0 0.75rem; }
 .btn { display: inline-block; padding: 0.6rem 1.2rem; background: #2563eb; color: white; border-radius: 0.75rem; text-decoration: none; font-weight: 500; transition: background 0.2s; cursor: pointer; font-size: 0.95rem;}
 .btn:hover { background: #1e40af; }
-.logout-btn { background: #f43f5e; color: white; border-radius: 0.75rem; padding: 0.5rem 1rem; font-weight: 500; cursor: pointer; margin-bottom: 1rem; width: fit-content; align-self: center; }
+.logout-btn { background: #f43f5e; color: white; border-radius: 0.75rem; padding: 0.5rem 1rem; font-weight: 500; cursor: pointer; position: fixed; bottom: 20px; right: 20px; z-index: 100; }
 @media (max-width: 1024px) {
   header img { height: 56px; width: 56px; }
   h1 { font-size: 1.75rem; }
@@ -137,8 +137,6 @@ main {
 </div>
 
 <main id="main-content" style="display:none;">
-  <button class="btn logout-btn" id="logout-btn">Logout</button>
-
   <!-- League Cards -->
   <div class="card"><img src="VFA.png" alt="VFA"><h2>VFA</h2><p>Top-level competitive VRFS league.</p><a href="https://discord.gg/vfa" target="_blank" class="btn">Join Discord</a></div>
   <div class="card"><img src="VSL2.png" alt="VSL"><h2>VSL</h2><p>Fast-paced regional division of VRFS.</p><a href="https://discord.gg/9sRpwbeuT7" target="_blank" class="btn">Join Discord</a></div>
@@ -146,10 +144,13 @@ main {
   <div class="card"><img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards"><h2>VRFS Major Awards</h2><p>Celebrate top VRFS players and teams each season.</p><a href="https://discord.gg/fukXANEEqH" target="_blank" class="btn">Join Discord</a></div>
   <div class="card"><img src="New VRFS Logo.png" alt="VRFS.gg"><h2>VRFS.gg</h2><p>Community hub for VRFS players and events.</p><a href="https://discord.com/invite/C4Ks8qK9nN" target="_blank" class="btn">Join Discord</a></div>
   <div class="card"><img src="VCFA123.png" alt="VCFA"><h2>VCFA</h2><p>Competitive VRFS league for top-tier players.</p><a href="https://discord.gg/r66raHh8he" target="_blank" class="btn">Join Discord</a></div>
-  <div class="card"><img src="VDL.png" alt="VDL"><h2>VDL</h2><p>One of the best VRFS leagues of all time! EU-based and active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
+  <div class="card"><img src="VDL.png" alt="VDL"><h2>VDL</h2><p>EU-based VRFS league, active daily.</p><a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="btn">Join Discord</a></div>
   <div class="card"><img src="Goat League.png" alt="Goat League"><h2>Goat League</h2><p>Competitive division under VRFS.</p><a href="https://discord.gg/4GRdhzWwZF" target="_blank" class="btn">Join Discord</a></div>
   <div class="card"><img src="UVBL.png" alt="UVBL"><h2>UVBL</h2><p>Competitive league under VRFS.</p><a href="https://discord.gg/XzzuwFMxcX" target="_blank" class="btn">Join Discord</a></div>
 </main>
+
+<!-- Fixed Logout Button -->
+<button class="logout-btn" id="logout-btn">Logout</button>
 
 <script>
 // Namespace for GitHub Pages safe localStorage
