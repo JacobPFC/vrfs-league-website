@@ -37,6 +37,10 @@
     border-radius: 12px;
     padding: 15px;
     position: relative;
+    order: 0; /* default for normal cards */
+  }
+  .card.sponsored {
+    order: 999; /* pushed to the end */
   }
   .card img {
     width: 100px;
@@ -119,6 +123,7 @@
     padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    display: none;
   }
   #logoutBtn:hover {
     background: #ff33aa;
@@ -163,7 +168,7 @@
 <section id="hub" style="display:none;">
   <div class="grid">
 
-    <!-- League cards with placeholder fallback -->
+    <!-- Regular League cards -->
     <div class="card"><img src="VFA.png" onerror="this.src='image-placeholder.png'"><h2>VFA</h2><a href="https://discord.gg/vfa" class="btn">Join Discord</a></div>
     <div class="card"><img src="VSL2.png" onerror="this.src='image-placeholder.png'"><h2>VSL</h2><a href="https://discord.gg/9sRpwbeuT7" class="btn">Join Discord</a></div>
     <div class="card"><img src="VWC.png" onerror="this.src='image-placeholder.png'"><h2>VWC</h2><a href="https://discord.gg/gp6MgkfC" class="btn">Join Discord</a></div>
@@ -176,11 +181,13 @@
     <div class="card"><img src="Goat League.png" onerror="this.src='image-placeholder.png'"><h2>Goat League</h2><a href="https://discord.gg/4GRdhzWwZF" class="btn">Join Discord</a></div>
     <div class="card"><img src="UVBL.png" onerror="this.src='image-placeholder.png'"><h2>UVBL</h2><a href="https://discord.gg/XzzuwFMxcX" class="btn">Join Discord</a></div>
     <div class="card"><img src="euros_trans.png" onerror="this.src='image-placeholder.png'"><h2>Euros (VTO)</h2><a href="#" class="btn">Join Discord</a></div>
-    <div class="card"><img src="UBL.GG.jpeg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><h2>UBL.GG</h2><a href="https://discord.gg/tmKd6KTrew" class="btn">Join Discord</a></div>
-    <div class="card"><img src="SVL.jpg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><h2>SVL</h2><a href="https://discord.gg/XvBhu9a6aQ" class="btn">Join Discord</a></div>
     <div class="card"><img src="Mullets.png" onerror="this.src='image-placeholder.png'"><h2>Mullets</h2><a href="https://discord.gg/nHC3XHdvzu" class="btn">Join Discord</a></div>
     <div class="card"><img src="Sportwave Academy.png" onerror="this.src='image-placeholder.png'"><h2>Sportwave Streaming Academy</h2><a href="https://discord.gg/7VjkMwyGfz" class="btn">Join Discord</a></div>
     <div class="card"><img src="monitor.png" onerror="this.src='image-placeholder.png'"><h2>Sportwave.xyz</h2><a href="#" onclick="window.open('https://sportwave.xyz','Sportwave','width=800,height=600')" class="btn">Visit Site</a></div>
+
+    <!-- Sponsored cards pushed to the end -->
+    <div class="card sponsored"><img src="UBL.GG.jpeg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><h2>UBL.GG</h2><a href="https://discord.gg/tmKd6KTrew" class="btn">Join Discord</a></div>
+    <div class="card sponsored"><img src="SVL.jpg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><h2>SVL</h2><a href="https://discord.gg/XvBhu9a6aQ" class="btn">Join Discord</a></div>
 
   </div>
 </section>
