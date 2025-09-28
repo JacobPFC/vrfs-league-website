@@ -8,8 +8,16 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(270deg, #ff6ec4, #7873f5);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       color: white;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     header {
@@ -17,11 +25,11 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px 20px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.4);
     }
 
     header img.logo {
-      height: 70px;
+      height: 80px;
     }
 
     header a.discord-link img {
@@ -31,39 +39,47 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
       padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .tile {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
       text-align: center;
-      padding: 10px;
-      transition: transform 0.2s;
+      padding: 15px;
+      transition: transform 0.2s, background 0.2s;
       position: relative;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .tile img {
-      width: 100%;
-      max-height: 100px;
+      width: 80%;
+      height: 100px;
       object-fit: contain;
       border-radius: 8px;
+      margin: 0 auto 10px auto;
     }
 
     .tile:hover {
       transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .sponsored-tag {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 8px;
+      right: 8px;
       background: gold;
       color: black;
-      font-size: 10px;
-      padding: 2px 5px;
+      font-size: 11px;
+      padding: 2px 6px;
       border-radius: 5px;
     }
 
@@ -71,7 +87,8 @@
       text-align: center;
       padding: 15px;
       font-size: 14px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.4);
+      margin-top: 20px;
     }
 
     /* Modals */
@@ -137,74 +154,64 @@
 
   <div id="hub" style="display:none;">
     <div class="grid">
-      <!-- Core Leagues -->
+
+      <!-- Leagues -->
       <a href="https://discord.gg/r66raHh8he" target="_blank" class="tile">
-        <img src="VCFA.png" alt="VCFA" />
+        <img src="VCFA.png" onerror="this.src='image-placeholder.png'" alt="VCFA" />
         <p>VCFA</p>
       </a>
 
       <a href="https://discord.gg/trEDrgQ4E3" target="_blank" class="tile">
-        <img src="VFA.png" alt="VFA" />
-        <p>VFA</p>
+        <img src="VDL.png" onerror="this.src='image-placeholder.png'" alt="VDL" />
+        <p>VDL</p>
+      </a>
+
+      <a href="https://discord.gg/4GRdhzWwZF" target="_blank" class="tile">
+        <img src="GoatLeague.png" onerror="this.src='image-placeholder.png'" alt="Goat League" />
+        <p>Goat League</p>
+      </a>
+
+      <a href="https://discord.gg/XzzuwFMxcX" target="_blank" class="tile">
+        <img src="UVBL.png" onerror="this.src='image-placeholder.png'" alt="UVBL" />
+        <p>UVBL</p>
       </a>
 
       <a href="https://discord.gg/w2FAAFVdKT" target="_blank" class="tile">
-        <img src="VRLL.png" alt="VRLL" />
+        <img src="VRLL.png" onerror="this.src='image-placeholder.png'" alt="VRLL" />
         <p>VRLL</p>
       </a>
 
       <a href="https://discord.gg/cP9hZX6P8N" target="_blank" class="tile">
-        <img src="VFL.png" alt="VFL" />
+        <img src="VFL.png" onerror="this.src='image-placeholder.png'" alt="VFL" />
         <p>VFL</p>
       </a>
 
-      <a href="https://discord.gg/XzzuwFMxcX" target="_blank" class="tile">
-        <img src="UVBL.png" alt="UVBL" />
-        <p>UVBL</p>
-      </a>
-
-      <a href="https://discord.gg/4GRdhzWwZF" target="_blank" class="tile">
-        <img src="GoatLeague.png" alt="Goat League" />
-        <p>Goat League</p>
-      </a>
-
-      <a href="https://discord.gg/nHC3XHdvzu" target="_blank" class="tile">
-        <img src="Mullets.png" alt="Mullets" />
-        <p>Mullets</p>
-      </a>
-
-      <a href="https://discord.gg/fukXANEEqH" target="_blank" class="tile">
-        <img src="vrfs-major-awards.jpeg" alt="VRFS Major Awards" />
-        <p>VRFS Major Awards</p>
-      </a>
-
-      <a href="https://discord.gg/tmKd6KTrew" target="_blank" class="tile">
-        <img src="UBL.GG.jpeg" alt="UBL.GG" />
-        <span class="sponsored-tag">Sponsored</span>
-        <p>UBL.GG</p>
+      <a href="https://discord.gg/7VjkMwyGfz" target="_blank" class="tile">
+        <img src="Sportwave Academy.png" onerror="this.src='image-placeholder.png'" alt="Sportwave Academy" />
+        <p>Sportwave Streaming Academy</p>
       </a>
 
       <a href="https://discord.gg/XvBhu9a6aQ" target="_blank" class="tile">
-        <img src="SVL.jpg" alt="SVL" />
+        <img src="SVL.jpg" onerror="this.src='image-placeholder.png'" alt="SVL" />
         <span class="sponsored-tag">Sponsored</span>
         <p>SVL</p>
       </a>
 
+      <a href="https://discord.gg/nHC3XHdvzu" target="_blank" class="tile">
+        <img src="Mullets.png" onerror="this.src='image-placeholder.png'" alt="Mullets" />
+        <p>Mullets</p>
+      </a>
+
+      <a href="https://discord.gg/tmKd6KTrew" target="_blank" class="tile">
+        <img src="UBL.GG.jpeg" onerror="this.src='image-placeholder.png'" alt="UBL.GG" />
+        <span class="sponsored-tag">Sponsored</span>
+        <p>UBL.GG</p>
+      </a>
+
       <a href="https://www.youtube.com/channel/UCxtlWaeIWnvT4rPWKVYKJUg/videos" target="_blank" class="tile">
-        <img src="MiguelYT PFP.jpeg" alt="MiguelYT" />
+        <img src="MiguelYT PFP.jpeg" onerror="this.src='image-placeholder.png'" alt="MiguelYT" />
         <span class="sponsored-tag">Sponsored</span>
         <p>MiguelYT</p>
-      </a>
-
-      <a href="https://discord.gg/7VjkMwyGfz" target="_blank" class="tile">
-        <img src="Sportwave Academy.png" alt="Sportwave Academy" />
-        <p>Sportwave Streaming Academy</p>
-      </a>
-
-      <!-- Placeholder for future -->
-      <a href="#" class="tile">
-        <img src="image-placeholder.png" alt="Placeholder" />
-        <p>Coming Soon</p>
       </a>
     </div>
   </div>
