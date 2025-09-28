@@ -1,224 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sportwave VRFS Hub</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ff69b4, #8a2be2);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sportwave Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(-45deg, #ff0080, #7928ca, #2afadf, #4facfe);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-  }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-  header img { height: 60px; }
-  header a img { height: 35px; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
-    padding: 20px;
-    flex-grow: 1;
-  }
+    header img {
+      height: 60px;
+    }
 
-  .card {
-    background: rgba(0,0,0,0.6);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s;
-  }
+    .discord-icon {
+      height: 40px;
+      cursor: pointer;
+    }
 
-  .card:hover { transform: scale(1.05); }
-  .card img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      flex-grow: 1;
+    }
 
-  .sponsored::after {
-    content: "Sponsored";
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: gold;
-    color: black;
-    font-size: 12px;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
+    .card {
+      background: rgba(0,0,0,0.6);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+    }
 
-  footer {
-    text-align: center;
-    padding: 10px;
-    background: rgba(0,0,0,0.7);
-    font-size: 14px;
-  }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
 
-  .auth-buttons {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+    .card img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
 
-  .auth-buttons button {
-    padding: 8px 12px;
-    background: #222;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-  }
+    .card p {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0;
+    }
 
-  .auth-buttons button:hover { background: #444; }
+    .btn {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: #4facfe;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
 
-  .popup {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
+    .btn:hover {
+      background: #2afadf;
+    }
 
-  .popup-content {
-    background: #222;
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px;
-    text-align: center;
-  }
+    .sponsored-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: gold;
+      color: black;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
 
-  .popup input {
-    width: 90%;
-    padding: 8px;
-    margin: 8px 0;
-  }
+    .logout-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      padding: 10px 15px;
+      background: #ff5f6d;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
 
-  .popup button {
-    margin: 5px;
-    padding: 8px 12px;
-    border: none;
-    background: #ff66cc;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-  }
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      background: rgba(0,0,0,0.5);
+    }
 
-  .popup button:hover { background: #ff33aa; }
-</style>
+    /* Login modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <img src="Sportwave Logo.png" alt="Sportwave Logo">
+    <a href="https://discord.gg/XvBhu9a6aQ">
+      <img src="discord-white-icon.webp" class="discord-icon" alt="Discord">
+    </a>
+  </header>
 
-<header>
-  <img src="Sportwave Logo.png" alt="Sportwave Logo">
-  <a href="https://discord.gg/XvBhu9a6aQ" target="_blank"><img src="discord-white-icon.webp" alt="Discord"></a>
-</header>
-
-<!-- Login/Signup Popup -->
-<div id="authPopup" class="popup" style="display:flex;">
-  <div class="popup-content">
-    <h2 id="authTitle">Login</h2>
-    <input type="text" id="authUsername" placeholder="Username">
-    <input type="password" id="authPassword" placeholder="Password">
-    <br>
-    <input type="checkbox" id="showPassword"> Show Password
-    <br>
-    <button id="authButton">Login</button>
-    <p id="toggleAuth" style="cursor:pointer; color:#ff69b4; margin-top:10px;">Don't have an account? Sign up</p>
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2>Login</h2>
+      <input type="text" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button onclick="login()" class="btn">Login</button>
+      <p><a href="#" onclick="openSignup()">Sign up</a> | <a href="#" onclick="openChangePassword()">Change password</a></p>
+    </div>
   </div>
-</div>
 
-<div class="grid" id="hub" style="display:none;">
-  <!-- Regular cards -->
-  <a href="https://discord.gg/vfa" class="card"><img src="VFA.png" onerror="this.src='image-placeholder.png'"><p>VFA</p></a>
-  <a href="https://discord.gg/9sRpwbeuT7" class="card"><img src="VSL2.png" onerror="this.src='image-placeholder.png'"><p>VSL</p></a>
-  <a href="https://discord.gg/gp6MgkfC" class="card"><img src="VWC.png" onerror="this.src='image-placeholder.png'"><p>VWC.GG</p></a>
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <h2>Sign Up</h2>
+      <input type="text" id="signupEmail" placeholder="Email">
+      <input type="password" id="signupPassword" placeholder="Password">
+      <button onclick="signup()" class="btn">Sign Up</button>
+    </div>
+  </div>
 
-  <!-- Sponsored cards -->
-  <a href="https://discord.gg/tmKd6KTrew" class="card sponsored"><img src="UBL.GG.jpeg" onerror="this.src='image-placeholder.png'"><p>UBL.GG</p></a>
-  <a href="https://discord.gg/XvBhu9a6aQ" class="card sponsored"><img src="SVL.jpg" onerror="this.src='image-placeholder.png'"><p>SVL</p></a>
-  <a href="https://www.youtube.com/channel/UCxtlWaeIWnvT4rPWKVYKJUg/videos" class="card sponsored"><img src="MiguelYT PFP.jpeg" onerror="this.src='image-placeholder.png'"><p>MiguelYT</p></a>
-</div>
+  <div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+      <h2>Change Password</h2>
+      <input type="text" id="changeEmail" placeholder="Email">
+      <input type="password" id="newPassword" placeholder="New Password">
+      <button onclick="changePassword()" class="btn">Change</button>
+    </div>
+  </div>
 
-<footer>Contact Us: sportwave.gg@gmail.com</footer>
+  <main id="hub" style="display:none;">
+    <div class="grid" id="leagueGrid">
+      <!-- Normal Leagues -->
+      <div class="card"><img src="VFA.png" onerror="this.src='image-placeholder.png'"><p>VFA</p><a href="https://discord.gg/vfa" class="btn">Join</a></div>
+      <div class="card"><img src="VSL2.png" onerror="this.src='image-placeholder.png'"><p>VSL</p><a href="https://discord.gg/9sRpwbeuT7" class="btn">Join</a></div>
+      <div class="card"><img src="VWC.png" onerror="this.src='image-placeholder.png'"><p>VWC.GG</p><a href="https://discord.gg/gp6MgkfC" class="btn">Join</a></div>
+      <div class="card"><img src="VCFA123.png" onerror="this.src='image-placeholder.png'"><p>VCFA</p><a href="https://discord.gg/r66raHh8he" class="btn">Join</a></div>
+      <div class="card"><img src="VDL.png" onerror="this.src='image-placeholder.png'"><p>VDL</p><a href="https://discord.gg/trEDrgQ4E3" class="btn">Join</a></div>
+      <div class="card"><img src="VRLL.png" onerror="this.src='image-placeholder.png'"><p>VRLL</p><a href="https://discord.gg/w2FAAFVdKT" class="btn">Join</a></div>
+      <div class="card"><img src="VFL.png" onerror="this.src='image-placeholder.png'"><p>VFL</p><a href="https://discord.gg/cP9hZX6P8N" class="btn">Join</a></div>
+      <div class="card"><img src="euros_trans.png" onerror="this.src='image-placeholder.png'"><p>Euros (VTO)</p><a href="https://discord.gg/euros" class="btn">Join</a></div>
+      <div class="card"><img src="Sportwave Academy.png" onerror="this.src='image-placeholder.png'"><p>Sportwave Streaming Academy</p><a href="https://discord.gg/7VjkMwyGfz" class="btn">Join</a></div>
+      <div class="card"><img src="New VRFS Logo.png" onerror="this.src='image-placeholder.png'"><p>VRFS.gg</p><a href="https://discord.com/invite/C4Ks8qK9nN" class="btn">Join</a></div>
+      <div class="card"><img src="vrfs-major-awards.jpeg" onerror="this.src='image-placeholder.png'"><p>VRFS Major Awards</p><a href="https://discord.gg/fukXANEEqH" class="btn">Join</a></div>
+      <div class="card"><img src="goat.png" onerror="this.src='image-placeholder.png'"><p>Goat League</p><a href="https://discord.gg/4GRdhzWwZF" class="btn">Join</a></div>
+      <div class="card"><img src="UVBL.png" onerror="this.src='image-placeholder.png'"><p>UVBL</p><a href="https://discord.gg/XzzuwFMxcX" class="btn">Join</a></div>
+      <div class="card"><img src="Mullets.png" onerror="this.src='image-placeholder.png'"><p>Mullets</p><a href="https://discord.gg/nHC3XHdvzu" class="btn">Join</a></div>
 
-<div class="auth-buttons">
-  <button onclick="logout()">Logout</button>
-</div>
+      <!-- Sponsored Leagues -->
+      <div class="card sponsored"><img src="UBL.GG.jpeg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><p>UBL.GG</p><a href="https://discord.gg/tmKd6KTrew" class="btn">Join</a></div>
+      <div class="card sponsored"><img src="SVL.jpg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><p>SVL</p><a href="https://discord.gg/XvBhu9a6aQ" class="btn">Join</a></div>
+      <div class="card sponsored"><img src="MiguelYT PFP.jpeg" onerror="this.src='image-placeholder.png'"><span class="sponsored-tag">Sponsored</span><p>MiguelYT</p><a href="https://www.youtube.com/channel/UCxtlWaeIWnvT4rPWKVYKJUg/videos" class="btn">Watch</a></div>
+    </div>
+  </main>
 
-<script>
-const authPopup = document.getElementById('authPopup');
-const hub = document.getElementById('hub');
-const authTitle = document.getElementById('authTitle');
-const authButton = document.getElementById('authButton');
-const toggleAuth = document.getElementById('toggleAuth');
-const showPassword = document.getElementById('showPassword');
+  <button class="logout-btn" onclick="logout()" style="display:none;">Logout</button>
 
-let isLogin = true;
+  <footer>
+    Contact Us: sportwave.gg@gmail.com
+  </footer>
 
-toggleAuth.addEventListener('click', () => {
-  isLogin = !isLogin;
-  authTitle.textContent = isLogin ? 'Login' : 'Sign Up';
-  authButton.textContent = isLogin ? 'Login' : 'Sign Up';
-  toggleAuth.textContent = isLogin ? "Don't have an account? Sign up" : "Already have an account? Login";
-});
-
-showPassword.addEventListener('change', () => {
-  const passInput = document.getElementById('authPassword');
-  passInput.type = showPassword.checked ? 'text' : 'password';
-});
-
-authButton.addEventListener('click', () => {
-  const username = document.getElementById('authUsername').value;
-  const password = document.getElementById('authPassword').value;
-  if(!username || !password) { alert('Fill in both fields'); return; }
-
-  let users = JSON.parse(localStorage.getItem('users') || '{}');
-
-  if(isLogin) {
-    if(users[username] && users[username] === password){
-      authPopup.style.display='none';
-      hub.style.display='grid';
-    } else {
-      alert('Invalid credentials');
+  <script>
+    // Modal toggles
+    function openSignup() {
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('signupModal').style.display = 'flex';
     }
-  } else {
-    if(users[username]){
-      alert('Username already exists');
-    } else {
-      users[username] = password;
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Account created! You can login now.');
-      isLogin = true;
-      authTitle.textContent = 'Login';
-      authButton.textContent = 'Login';
-      toggleAuth.textContent = "Don't have an account? Sign up";
+    function openChangePassword() {
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('changePasswordModal').style.display = 'flex';
     }
-  }
-});
 
-function logout(){
-  hub.style.display='none';
-  authPopup.style.display='flex';
-}
-</script>
+    // Login system (localStorage)
+    function signup() {
+      const email = document.getElementById('signupEmail').value;
+      const pass = document.getElementById('signupPassword').value;
+      if (email && pass) {
+        localStorage.setItem(email, pass);
+        alert('Account created! Please log in.');
+        document.getElementById('signupModal').style.display = 'none';
+        document.getElementById('loginModal').style.display = 'flex';
+      } else {
+        alert('Fill in both fields!');
+      }
+    }
 
+    function login() {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      if (localStorage.getItem(email) === pass) {
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('hub').style.display = 'block';
+        document.querySelector('.logout-btn').style.display = 'block';
+      } else {
+        alert('Invalid login!');
+      }
+    }
+
+    function changePassword() {
+      const email = document.getElementById('changeEmail').value;
+      const newPass = document.getElementById('newPassword').value;
+      if (localStorage.getItem(email)) {
+        localStorage.setItem(email, newPass);
+        alert('Password updated!');
+        document.getElementById('changePasswordModal').style.display = 'none';
+        document.getElementById('loginModal').style.display = 'flex';
+      } else {
+        alert('Account not found!');
+      }
+    }
+
+    function logout() {
+      document.getElementById('hub').style.display = 'none';
+      document.querySelector('.logout-btn').style.display = 'none';
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    // Open login on page load
+    window.onload = () => {
+      document.getElementById('loginModal').style.display = 'flex';
+    };
+  </script>
 </body>
 </html>
 
