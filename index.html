@@ -93,60 +93,6 @@
       text-align: center;
       padding: 10px;
     }
-
-    .logout-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: red;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    /* Login modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      border-radius: 8px;
-      width: 300px;
-      text-align: center;
-    }
-
-    .modal-content input {
-      width: 90%;
-      padding: 8px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .modal-content button {
-      margin: 6px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 5px;
-      background: #8a2be2;
-      color: white;
-      cursor: pointer;
-    }
-
-    .modal-content button:hover {
-      background: #6a1bbf;
-    }
   </style>
 </head>
 <body>
@@ -163,8 +109,8 @@
     </div>
   </header>
 
-  <div class="grid" id="hub" style="display:none;">
-    <!-- Example league tile -->
+  <div class="grid" id="hub">
+    <!-- League tiles -->
     <a href="https://discord.gg/vfa" target="_blank" class="tile">
       <img src="VFA.png" onerror="this.src='image-placeholder.png'" alt="VFA"/>
       <p>VFA</p>
@@ -200,105 +146,9 @@
     </a>
   </div>
 
-  <button class="logout-btn" id="logoutBtn" style="display:none;">Logout</button>
-
   <footer>
     <p>Contact Us: sportwave.gg@gmail.com</p>
   </footer>
 
-  <!-- Login modal -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username"/>
-      <input type="password" id="password" placeholder="Password"/>
-      <br/>
-      <button onclick="login()">Login</button>
-      <button onclick="signup()">Sign Up</button>
-      <button onclick="changePassword()">Change Password</button>
-    </div>
-  </div>
-
-  <script>
-    const hub = document.getElementById('hub');
-    const loginModal = document.getElementById('loginModal');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    function showHub() {
-      loginModal.style.display = 'none';
-      hub.style.display = 'grid';
-      logoutBtn.style.display = 'block';
-      resetInactivityTimer();
-    }
-
-    function login() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      const stored = localStorage.getItem('user_'+u);
-      if (stored && JSON.parse(stored).password === p) {
-        localStorage.setItem('loggedIn', u);
-        showHub();
-      } else {
-        alert('Invalid credentials');
-      }
-    }
-
-    function signup() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      if (localStorage.getItem('user_'+u)) {
-        alert('User already exists');
-        return;
-      }
-      localStorage.setItem('user_'+u, JSON.stringify({password:p}));
-      alert('Account created! Please login.');
-    }
-
-    function changePassword() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      if (localStorage.getItem('user_'+u)) {
-        localStorage.setItem('user_'+u, JSON.stringify({password:p}));
-        alert('Password updated!');
-      } else {
-        alert('User not found');
-      }
-    }
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('loggedIn');
-      hub.style.display = 'none';
-      logoutBtn.style.display = 'none';
-      loginModal.style.display = 'flex';
-    });
-
-    // Auto show login modal
-    window.onload = () => {
-      if (localStorage.getItem('loggedIn')) {
-        showHub();
-      } else {
-        loginModal.style.display = 'flex';
-      }
-    };
-
-    // Inactivity logout (1 hour)
-    let inactivityTimer;
-    function resetInactivityTimer() {
-      clearTimeout(inactivityTimer);
-      inactivityTimer = setTimeout(() => {
-        alert("Logged out due to inactivity.");
-        localStorage.removeItem('loggedIn');
-        hub.style.display = 'none';
-        logoutBtn.style.display = 'none';
-        loginModal.style.display = 'flex';
-      }, 3600000); // 1 hour = 3,600,000 ms
-    }
-
-    ['click','mousemove','keydown','touchstart'].forEach(evt => {
-      window.addEventListener(evt, resetInactivityTimer);
-    });
-  </script>
-
 </body>
 </html>
-
